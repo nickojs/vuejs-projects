@@ -21,6 +21,7 @@ export default defineComponent({
     async fetchValues() {
       if (this.isFetchable) {
         this.loading = true;
+        this.data = null;
         try {
           const result = await api({
             params: {
@@ -44,6 +45,7 @@ export default defineComponent({
         selectedCurrency: this.selectedCurrency,
       }),
       (data: Record<string, null | string>) => {
+        console.log(data.selectedCrypto, data.selectedCurrency);
         if (data.selectedCrypto && data.selectedCurrency) {
           this.isFetchable = true;
         }
@@ -51,10 +53,18 @@ export default defineComponent({
     );
   },
   watch: {
-    isFetchable(newVal) {
-      if (newVal) {
+    selectedCrypto(newVal, oldVal) {
+      if (newVal !== oldVal) {
         this.fetchValues();
       }
+    },
+    selectedCurrency(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.fetchValues();
+      }
+    },
+    isFetchable(newVal) {
+      if (newVal) this.fetchValues();
     },
   },
 });
