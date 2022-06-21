@@ -1,11 +1,15 @@
 <script lang="ts">
 /* eslint-disable vuejs-accessibility/form-control-has-label */
-import api from '@/services/api';
+import { defineComponent } from 'vue';
 import availableCryptos from '@/constants/cryptos';
 import availableCurrency from '@/constants/currency';
-import { defineComponent } from 'vue';
+import api from '@/services/api';
+import Select from '@/components/Select.vue';
 
 export default defineComponent({
+  components: {
+    Select,
+  },
   data() {
     return {
       availableCryptos,
@@ -74,27 +78,16 @@ export default defineComponent({
   <div class="home">
     <div class="wrapper">
       <div class="currency-options">
-        <select v-model="selectedCrypto">
-          <option
-            v-for="crypto in availableCryptos"
-            :key="crypto.id"
-            :value="crypto.id"
-          >
-            {{ crypto.value }}
-          </option>
-        </select>
-
-        <p>To</p>
-
-        <select v-model="selectedCurrency">
-          <option
-            v-for="currency in availableCurrency"
-            :key="currency.id"
-            :value="currency.id"
-          >
-            {{ currency.value }}
-          </option>
-        </select>
+        <Select
+          v-model="selectedCrypto"
+          :disabled="loading"
+          :options="availableCryptos"
+        />
+        <Select
+          v-model="selectedCurrency"
+          :disabled="loading"
+          :options="availableCurrency"
+        />
       </div>
 
       <p v-if="loading">loading...</p>
