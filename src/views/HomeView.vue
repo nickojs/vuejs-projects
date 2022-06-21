@@ -5,12 +5,13 @@ import availableCryptos from '@/constants/cryptos';
 import availableCurrency from '@/constants/currency';
 import api from '@/services/api';
 import Select from '@/components/Select.vue';
+import { CryptoProps } from '@/interfaces';
 
 export default defineComponent({
   components: {
     Select,
   },
-  data() {
+  data(): CryptoProps {
     return {
       availableCryptos,
       availableCurrency,
